@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Make {
+  id     String  @id @default(uuid())
+  name   String  @unique
+  slug   String  @unique
+  models Model[]
+}
+
+model Model {
+  id        String   @id @default(uuid())
+  makeId    String
+  name      String
+  yearStart Int?
+  yearEnd   Int?
+  slug      String   @unique
+  make      Make     @relation(fields: [makeId], references: [id], onDelete: Cascade)
+  engines   Engine[]
+}
+
+model Engine {
+  id            String        @id @default(uuid())
+  modelId       String
+  code          String
+  displacement  String
+  stockHp       Int
+  stockTorque   Int
+  tuningType    String?
+  stages        TuningStage[]
+  model         Model         @relation(fields: [modelId], references: [id], onDelete: Cascade)
+}
+
+model TuningStage {
+  id           String  @id @default(uuid())
+  engineId     String
+  stageNumber  Int
+  requiredMods String
+  hpGain       Int
+  torqueGain   Int
+  notes        String?
+  engine       Engine  @relation(fields: [engineId], references: [id], onDelete: Cascade)
+}

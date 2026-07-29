@@ -1,36 +1,119 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BoostedBoiz – Tuning Stage Calculator
+
+![Tests](https://github.com/LovaszyLeonard/BoostedBoiz/actions/workflows/test.yml/badge.svg)
+
+A modern, motorsport-themed web application designed to calculate horsepower and torque gains across various automotive tuning stages. Select your make, model, and engine to explore stage upgrades—complete with hardware requirements, HUD telemetry, and interactive dyno charts.
+
+**Live Demo:** https://boostedboiz.vercel.app
+
+![App Screenshot](public/screenshot.png)
+
+---
+
+## Features
+
+* **Smart Searchable Comboboxes** – Deep link or share specific builds easily via state-synced URL parameters.
+* **Hybrid Tuning Engine** – Combines real curated data for popular engines with intelligent algorithmic fallbacks for long-tail options.
+* **Stage Performance Cards** – Detailed breakdowns of HP/torque gains, target boost levels, and required hardware upgrades.
+* **HUD Telemetry Bar** – Instant snapshot of platform details, engine code, factory baseline specs, and peak potential.
+* **Interactive Dyno Graph** – Dynamic visual comparison (powered by Recharts) comparing stock curves vs. staged power curves.
+* **Race-Condition Safe** – Stale async requests are ignored, ensuring UI state always reflects the active target.
+* **Sleek UI/UX** – Skeleton loaders for async operations wrapped in a dark, motorsport-inspired UI with carbon-fiber grid textures and high-contrast amber/emerald accents.
+
+---
+
+## Tech Stack
+
+| Category | Technology |
+| :--- | :--- |
+| **Framework** | Next.js 14 (App Router) |
+| **Language** | TypeScript |
+| **Styling** | Tailwind CSS, shadcn/ui |
+| **Database** | PostgreSQL (Supabase) + Prisma ORM |
+| **Data Viz** | Recharts |
+| **Icons** | Lucide React |
+| **Testing** | Vitest, React Testing Library |
+| **CI/CD** | GitHub Actions, Vercel |
+
+---
+
+## Architecture & API Routes
+
+Client (Next.js) ---> REST API (Route Handlers) ---> Prisma ORM ---> PostgreSQL (Supabase)
+
+| Endpoint | Description |
+| :--- | :--- |
+| `GET /api/makes` | Returns all available vehicle makes |
+| `GET /api/makes/:makeId/models` | Returns available models for a specific make |
+| `GET /api/models/:modelId/engines` | Returns available engines for a specific model |
+| `GET /api/engines/:engineId/stages` | Returns curated stage data or generated fallback estimates |
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
+* Node.js (v18+ recommended)
+* npm, pnpm, or yarn
+
+### 1. Installation
+
+git clone https://github.com/LovaszyLeonard/BoostedBoiz.git
+cd BoostedBoiz
+npm install
+
+### 2. Database Configuration
+
+Create a .env file in the root directory:
+
+DATABASE_URL="file:./dev.db"
+
+Choose one of the database options below to seed and initialize:
+
+#### Option A: Quick Start (Local SQLite)
+
+# Push schema and run initial seed
+npx prisma migrate dev --name init
+npx prisma db seed
+
+# (Optional) Seed extended dataset
+npx ts-node prisma/seed-large.ts
+
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### Option B: Production Parity (Cloud PostgreSQL)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Update your .env with your PostgreSQL string:
+DATABASE_URL="postgresql://user:password@host:6543/db"
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Then run:
+npx prisma migrate deploy
+npx prisma db seed
+npm run dev
 
-## Learn More
+Open http://localhost:3000 in your browser.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Testing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Run the test suite (includes unit tests for API routes and component tests for selection workflows):
 
-## Deploy on Vercel
+npm test
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+
+This project is deployed on Vercel with a Supabase PostgreSQL instance. Ensure the DATABASE_URL environment variable is configured in your Vercel project settings.
+
+---
+
+## Roadmap & Future Improvements
+
+- User Accounts & Garage – Save custom garage builds to user profiles.
+- Admin Portal – Graphical interface to manage and add curated engine specs.
+- Dyno CSV Import – Upload real dyno run files to generate hyper-accurate custom curves.
+- PWA Support – Offline capability and mobile app installation support.

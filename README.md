@@ -4,9 +4,6 @@
 
 A modern, motorsport-themed web application designed to calculate horsepower and torque gains across various automotive tuning stages. Select your make, model, and engine to explore stage upgrades—complete with hardware requirements, HUD telemetry, and interactive dyno charts.
 
-**Live Demo:** https://boostedboiz.vercel.app
-
-![App Screenshot](public/screenshot.png)
 
 ---
 

@@ -1,6 +1,10 @@
 // app/layout.tsx
-import { Orbitron } from 'next/font/google';
+import { Orbitron, Geist } from 'next/font/google';
 import './globals.css';
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+
 
 // Load Orbitron (aggressive racing vibe)
 const orbitron = Orbitron({
@@ -17,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     // Add orbitron.variable to the <html> tag
-    <html lang="en" className={`${orbitron.variable} dark`}>
+    <html lang="en" className={cn("dark", orbitron.variable, "font-sans", geist.variable)}>
       <body className="antialiased">{children}</body>
     </html>
   );

@@ -28,6 +28,7 @@ import {
   Settings2,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface Stage {
   id: string;
@@ -390,9 +391,15 @@ export default function Home() {
 
         {/* Loading Indicator */}
         {stagesLoading && (
-          <div className="flex flex-col items-center justify-center py-24 gap-5" role="status" aria-live="polite">
-            <Settings2 className="w-10 h-10 text-amber-500 animate-spin" aria-hidden="true" />
-            <p className="font-racing text-xs font-black tracking-widest text-zinc-500 uppercase">CALIBRATING MAPS...</p>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="bg-black border border-zinc-800 p-6 space-y-4">
+                <Skeleton className="h-6 w-20 bg-zinc-800" />
+                <Skeleton className="h-10 w-32 bg-zinc-800" />
+                <Skeleton className="h-4 w-48 bg-zinc-800" />
+                <Skeleton className="h-2.5 w-full bg-zinc-800" />
+              </div>
+            ))}
           </div>
         )}
 

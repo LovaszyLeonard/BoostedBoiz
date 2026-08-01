@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed-large": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' prisma/seed-large.ts"
+    "seed-large": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' prisma/seed-large.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
@@ -48,9 +50,5 @@
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts",
     "seed-large": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed-large.ts"
-  },
-  "scripts": {
-  "test": "vitest run",
-  "test:watch": "vitest"
   }
 }
